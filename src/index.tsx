@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 
 const App = () => {
-	const ref = useRef<any>();
+	const ref = useRef<esbuild.Service>();
 	const [input, setInput] = useState('');
 	const [code, setCode] = useState('');
 
@@ -25,6 +25,10 @@ const App = () => {
 			bundle: true,
 			write: false,
 			plugins: [unpkgPathPlugin()],
+			define: {
+				'process.env.NODE_ENV': '"production"',
+				global: 'window',
+			},
 		});
 
 		console.log(result);
@@ -38,7 +42,10 @@ const App = () => {
 
 	return (
 		<div>
-			<textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
+			<textarea
+				placeholder='package name'
+				value={input}
+				onChange={e => setInput(e.target.value)}></textarea>
 			<div>
 				<button onClick={onClick}>Submit</button>
 			</div>
