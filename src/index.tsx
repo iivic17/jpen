@@ -24,14 +24,12 @@ const App = () => {
 			entryPoints: ['index.js'],
 			bundle: true,
 			write: false,
-			plugins: [unpkgPathPlugin()],
+			plugins: [unpkgPathPlugin(input)],
 			define: {
 				'process.env.NODE_ENV': '"production"',
 				global: 'window',
 			},
 		});
-
-		console.log(result);
 
 		setCode(result.outputFiles[0].text);
 	};
@@ -43,7 +41,7 @@ const App = () => {
 	return (
 		<div>
 			<textarea
-				placeholder='package name'
+				placeholder='Type code with imports, jsx..'
 				value={input}
 				onChange={e => setInput(e.target.value)}></textarea>
 			<div>
