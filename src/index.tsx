@@ -1,13 +1,19 @@
 import * as esbuild from 'esbuild-wasm';
-import ReactDOM from 'react-dom';
 import { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
 
 const App = () => {
 	const ref = useRef<esbuild.Service>();
-	const [input, setInput] = useState('');
-	const [code, setCode] = useState('');
+	const iframe = useRef<any>();
+	const [input, setInput] = useState(`import React from 'react';
+import ReactDOM from 'react-dom';
+
+const App = () => <div>React App</div>;
+
+ReactDOM.render(<App/>, document.querySelector('#root'));
+`);
 
 	const startService = async () => {
 		ref.current = await esbuild.startService({
@@ -15,6 +21,10 @@ const App = () => {
 			wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
 		});
 	};
+
+	useEffect(() => {
+		startService();
+	}, []);
 
 	const onClick = async () => {
 		if (!ref.current) {
@@ -32,23 +42,30 @@ const App = () => {
 			},
 		});
 
-		setCode(result.outputFiles[0].text);
+		iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
 	};
 
-	useEffect(() => {
-		startService();
-	}, []);
+	const html = `
+   	 	<html>
+      		<head></head>
+     		<body>
+        		<div id="root"></div>
+        		<script>
+          				window.addEventListener('message', (event) => {
+            			eval(event.data);
+        			}, false);
+      			</script>
+      		</body>
+    	</html>
+  	`;
 
 	return (
 		<div>
-			<textarea
-				placeholder='Type code with imports, jsx..'
-				value={input}
-				onChange={e => setInput(e.target.value)}></textarea>
+			<textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
 			<div>
 				<button onClick={onClick}>Submit</button>
 			</div>
-			<pre>{code}</pre>
+			<iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} />
 		</div>
 	);
 };
