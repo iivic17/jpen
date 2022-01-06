@@ -3,17 +3,12 @@ import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
+import placeholder from './placeholder';
 
 const App = () => {
 	const ref = useRef<esbuild.Service>();
 	const iframe = useRef<any>();
-	const [input, setInput] = useState(`import React from 'react';
-import ReactDOM from 'react-dom';
-
-const App = () => <div>React App</div>;
-
-ReactDOM.render(<App/>, document.querySelector('#root'));
-`);
+	const [input, setInput] = useState(placeholder);
 
 	const startService = async () => {
 		ref.current = await esbuild.startService({
@@ -52,7 +47,13 @@ ReactDOM.render(<App/>, document.querySelector('#root'));
         		<div id="root"></div>
         		<script>
           				window.addEventListener('message', (event) => {
-            			eval(event.data);
+            			try {
+							eval(event.data);
+						} catch (err) {
+							const root = document.querySelector('#root');
+							root.innerHTML = '<div style="color: red"><h4>Runtime Error</h4>' + err + '</div>';
+							throw err;
+						}
         			}, false);
       			</script>
       		</body>
