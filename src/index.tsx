@@ -26,6 +26,8 @@ const App = () => {
 			return;
 		}
 
+		iframe.current.srcdoc = html;
+
 		const result = await ref.current.build({
 			entryPoints: ['index.js'],
 			bundle: true,
@@ -66,7 +68,7 @@ const App = () => {
 			<div>
 				<button onClick={onClick}>Submit</button>
 			</div>
-			<iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} />
+			<iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} title='jpen' />
 		</div>
 	);
 };
