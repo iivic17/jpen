@@ -4,11 +4,7 @@ import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import prettier from 'prettier';
 import parser from 'prettier/parser-babel';
 import { useRef } from 'react';
-
-interface CodeEditorProps {
-	initialValue: string;
-	onChange(value: string): void;
-}
+import CodeEditorProps from './code-editor-props';
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
 	const editorRef = useRef<editor.IStandaloneCodeEditor>();

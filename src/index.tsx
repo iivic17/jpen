@@ -3,14 +3,15 @@ import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { unpkgPathPlugin } from './plugins/resolve';
 import { fetchPlugin } from './plugins/load';
-import initialValue from './initialValue';
-import CodeEditor from './components/code-editor';
-import 'bulmaswatch/cyborg/bulmaswatch.min.css';
+import CodeEditor from './components/code-editor/code-editor';
+import Preview from './components/preview/preview';
+import 'bulmaswatch/superhero/bulmaswatch.min.css';
+import { initialCode } from './components/template';
 
 const App = () => {
 	const ref = useRef<esbuild.Service>();
-	const iframe = useRef<any>();
-	const [input, setInput] = useState(initialValue);
+	const [input, setInput] = useState(initialCode);
+	const [code, setCode] = useState(input);
 
 	const startService = async () => {
 		ref.current = await esbuild.startService({
@@ -28,8 +29,6 @@ const App = () => {
 			return;
 		}
 
-		iframe.current.srcdoc = html;
-
 		const result = await ref.current.build({
 			entryPoints: ['index.js'],
 			bundle: true,
@@ -41,37 +40,16 @@ const App = () => {
 			},
 		});
 
-		iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
+		setCode(result.outputFiles[0].text);
 	};
-
-	const html = `
-   	 	<html>
-      		<head></head>
-     		<body>
-        		<div id="root"></div>
-        		<script>
-          				window.addEventListener('message', (event) => {
-            			try {
-							eval(event.data);
-						} catch (err) {
-							const root = document.querySelector('#root');
-							root.innerHTML = '<div style="color: red"><h4>Runtime Error</h4>' + err + '</div>';
-							throw err;
-						}
-        			}, false);
-      			</script>
-      		</body>
-    	</html>
-  	`;
 
 	return (
 		<div>
 			<CodeEditor initialValue={input} onChange={value => setInput(value)} />
-			{/* <textarea value={input} onChange={e => setInput(e.target.value)}></textarea> */}
 			<div>
 				<button onClick={onClick}>Submit</button>
 			</div>
-			<iframe ref={iframe} sandbox='allow-scripts' srcDoc={html} title='jpen' />
+			<Preview code={code} />
 		</div>
 	);
 };
