@@ -3,7 +3,7 @@ export const rootHtml = `
         <head></head>
         <body>
             <div id="root"></div>
-            <script>
+            <script type="module">
                     window.addEventListener('message', (event) => {
                     try {
                         eval(event.data);
