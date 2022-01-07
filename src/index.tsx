@@ -5,6 +5,7 @@ import { unpkgPathPlugin } from './plugins/resolve';
 import { fetchPlugin } from './plugins/load';
 import initialValue from './initialValue';
 import CodeEditor from './components/code-editor';
+import 'bulmaswatch/cyborg/bulmaswatch.min.css';
 
 const App = () => {
 	const ref = useRef<esbuild.Service>();
