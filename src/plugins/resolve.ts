@@ -1,8 +1,8 @@
 import * as esbuild from 'esbuild-wasm';
 
-export const unpkgPathPlugin = () => {
+export const resolvePlugin = () => {
 	return {
-		name: 'unpkg-path-plugin',
+		name: 'resolve-plugin',
 		setup(build: esbuild.PluginBuild) {
 			// Handle root entry file of 'index.js'
 			build.onResolve({ filter: /(^index\.js$)/ }, () => {

@@ -6,9 +6,9 @@ const fileCache = localForage.createInstance({
 	name: 'filecache',
 });
 
-export const fetchPlugin = (inputCode: string) => {
+export const loadPlugin = (inputCode: string) => {
 	return {
-		name: 'fetch-plugin',
+		name: 'load-plugin',
 		setup(build: esbuild.PluginBuild) {
 			// Handle root entry file of 'index.js'
 			build.onLoad({ filter: /(^index\.js$)/ }, () => {
