@@ -1,9 +1,10 @@
 import * as esbuild from 'esbuild-wasm';
 import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
-import { fetchPlugin } from './plugins/fetch-plugin';
+import { unpkgPathPlugin } from './plugins/resolve';
+import { fetchPlugin } from './plugins/load';
 import placeholder from './placeholder';
+import CodeEditor from './components/code-editor';
 
 const App = () => {
 	const ref = useRef<esbuild.Service>();
@@ -64,7 +65,8 @@ const App = () => {
 
 	return (
 		<div>
-			<textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
+			<CodeEditor initialValue={input} onChange={value => setInput(value)} />
+			{/* <textarea value={input} onChange={e => setInput(e.target.value)}></textarea> */}
 			<div>
 				<button onClick={onClick}>Submit</button>
 			</div>
