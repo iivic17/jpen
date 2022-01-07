@@ -3,13 +3,13 @@ import { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { unpkgPathPlugin } from './plugins/resolve';
 import { fetchPlugin } from './plugins/load';
-import placeholder from './placeholder';
+import initialValue from './initialValue';
 import CodeEditor from './components/code-editor';
 
 const App = () => {
 	const ref = useRef<esbuild.Service>();
 	const iframe = useRef<any>();
-	const [input, setInput] = useState(placeholder);
+	const [input, setInput] = useState(initialValue);
 
 	const startService = async () => {
 		ref.current = await esbuild.startService({
