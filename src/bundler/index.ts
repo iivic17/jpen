@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild-wasm';
-import { loadPlugin } from '../plugins/load';
-import { resolvePlugin } from '../plugins/resolve';
+import { loadPlugin } from './plugins/load';
+import { resolvePlugin } from './plugins/resolve';
 
 let service: esbuild.Service;
 
