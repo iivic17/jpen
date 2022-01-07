@@ -2,7 +2,8 @@ import './app.css';
 import CodeCell from '../code-cell/code-cell';
 
 const App: React.FC = () => {
-	const initialCode = `   
+	const initialCode = `
+		import 'bulma/css/bulma.css'; 
     	import React, { useState } from 'react';
     	import ReactDOM from 'react-dom';
 
@@ -15,7 +16,7 @@ const App: React.FC = () => {
 
         	return (
             	<div>
-                	<h1>Hello there</h1>
+                	<h1 style={{fontSize: '36px'}}>Hello there</h1>
                 	<p>This is a React app!</p>
                 	<button onClick={onClick}>Increase me ({counter})</button>
             	</div>

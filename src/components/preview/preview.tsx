@@ -2,24 +2,45 @@ import './preview.css';
 import { useRef, useEffect } from 'react';
 import PreviewProps from './preview-props';
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, err }) => {
 	const iframe = useRef<any>();
 
 	const rootHtml = `
     	<html>
-        	<head></head>
+        	<head>
+				<style>
+					.preview-err {
+						position: absolute;
+						top: 10px;
+						left: 10px;
+						color: red;
+						font-size: 16px;
+						font-weight: 400;
+						line-height: 1;
+					}
+				</style>
+			</head>
         	<body>
             	<div id="root"></div>
             	<script>
-                    	window.addEventListener('message', (event) => {
+					const handleError = (err) => {
+						const root = document.querySelector('#root');
+                        root.innerHTML = '<div class="preview-err">' + err + '</div>';
+                        console.log(err);
+					};
+
+					window.addEventListener('error', (event) => {
+						event.preventDefault();
+						handleError(event.error);
+					});
+
+                    window.addEventListener('message', (event) => {
                     	try {
                         	eval(event.data);
                     	} catch (err) {
-                        	const root = document.querySelector('#root');
-                        	root.innerHTML = '<div style="color: red"><h4>Runtime Error</h4>' + err + '</div>';
-                        	throw err;
-                    	}
-                	}, false);
+							handleError(err);
+                		}
+					}, false);
             	</script>
         	</body>
     	</html>
@@ -42,6 +63,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
 				srcDoc={rootHtml}
 				title='jpen'
 			/>
+			{err && <div className='preview-err'>{err}</div>}
 		</div>
 	);
 };
