@@ -1,5 +1,6 @@
-import CodeCell from './code-cell/code-cell';
-import { initialCode } from './template';
+import './app.css';
+import CodeCell from '../code-cell/code-cell';
+import { initialCode } from '../template';
 
 const App: React.FC = () => {
 	return (
