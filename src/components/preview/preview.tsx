@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 import PreviewProps from './preview-props';
 
 const Preview: React.FC<PreviewProps> = ({ code, err }) => {
-	const iframe = useRef<any>();
+	const iframe = useRef<HTMLIFrameElement | null>(null);
 
 	const rootHtml = `
     	<html>
@@ -47,10 +47,14 @@ const Preview: React.FC<PreviewProps> = ({ code, err }) => {
 	`;
 
 	useEffect(() => {
+		if (!iframe.current) {
+			return;
+		}
+
 		iframe.current.srcdoc = rootHtml;
 
 		setTimeout(() => {
-			iframe.current.contentWindow.postMessage(code, '*');
+			iframe.current?.contentWindow?.postMessage(code, '*');
 		}, 50);
 	}, [code, rootHtml]);
 

@@ -1,4 +1,4 @@
-import 'bulmaswatch/cyborg/bulmaswatch.min.css';
+import 'bulmaswatch/united/bulmaswatch.min.css';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
 
