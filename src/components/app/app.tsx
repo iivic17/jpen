@@ -1,6 +1,8 @@
 import './app.css';
 import CodeCell from '../code-cell/code-cell';
 import TextEditor from '../text-editor/text-editor';
+import { Provider } from 'react-redux';
+import { store } from './../../state';
 
 const App: React.FC = () => {
 	const initialCode = `
@@ -28,11 +30,13 @@ const App: React.FC = () => {
 	`;
 
 	return (
-		<div>
-			<TextEditor />
-			<CodeCell initialValue={initialCode} />
-			{/* <CodeCell initialValue='' /> */}
-		</div>
+		<Provider store={store}>
+			<div>
+				<TextEditor />
+				<CodeCell initialValue={initialCode} />
+				{/* <CodeCell initialValue='' /> */}
+			</div>
+		</Provider>
 	);
 };
 
