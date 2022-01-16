@@ -1,7 +1,6 @@
 import { Direction } from './../direction';
 import { ActionType } from '../action-types';
 import {
-	Action,
 	DeleteCellAction,
 	InsertCellBeforeAction,
 	UpdateCellAction,
