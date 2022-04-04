@@ -1,3 +1,4 @@
+import { Directions } from './../direction';
 import produce from 'immer';
 import { Cell } from './../cell';
 import { ActionType } from '../action-types';
@@ -23,8 +24,17 @@ const reducer = produce(
 	(state: CellsState = initialState, action: Action): CellsState | void => {
 		switch (action.type) {
 			case ActionType.MOVE_CELL:
-				// TODO
-				return state;
+				const { direction } = action.payload;
+				const index = state.order.findIndex(id => id === action.payload.id);
+				const targetIndex = direction === Directions.UP ? index - 1 : index + 1;
+
+				if (targetIndex < 0 || targetIndex > state.order.length - 1) {
+					return;
+				}
+
+				state.order[index] = state.order[targetIndex];
+				state.order[targetIndex] = action.payload.id;
+				return;
 
 			case ActionType.DELETE_CELL:
 				delete state.data[action.payload];
