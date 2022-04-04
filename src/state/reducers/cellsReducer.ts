@@ -20,15 +20,16 @@ const initialState: CellsState = {
 };
 
 const reducer = produce(
-	(action: Action, state: CellsState = initialState): CellsState | void => {
+	(state: CellsState = initialState, action: Action): CellsState | void => {
 		switch (action.type) {
 			case ActionType.MOVE_CELL:
 				// TODO
 				return state;
 
 			case ActionType.DELETE_CELL:
-				// TODO
-				return state;
+				delete state.data[action.payload];
+				state.order = state.order.filter(id => id !== action.payload);
+				return;
 
 			case ActionType.INSERT_CELL_BEFORE:
 				// TODO
