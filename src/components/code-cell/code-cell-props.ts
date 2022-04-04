@@ -1,3 +1,5 @@
+import { Cell } from '../../state';
+
 export default interface CodeCellProps {
-	initialValue: string;
+	cell: Cell;
 }
