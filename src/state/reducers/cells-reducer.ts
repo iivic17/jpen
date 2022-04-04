@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import produce from 'immer';
-import { Directions } from './../direction';
-import { Cell } from './../cell';
+import { Directions } from '../direction';
+import { Cell } from '../cell';
 import { ActionType } from '../action-types';
 import { Action } from '../actions';
 
@@ -22,7 +22,7 @@ const initialState: CellsState = {
 };
 
 const reducer: Reducer<CellsState, Action> = produce(
-	(state: CellsState = initialState, action: Action): CellsState | void => {
+	(state: CellsState = initialState, action: Action): CellsState => {
 		switch (action.type) {
 			case ActionType.MOVE_CELL:
 				const { direction } = action.payload;
@@ -30,19 +30,19 @@ const reducer: Reducer<CellsState, Action> = produce(
 				const targetIndex = direction === Directions.UP ? index - 1 : index + 1;
 
 				if (targetIndex < 0 || targetIndex > state.order.length - 1) {
-					break;
+					return state;
 				}
 
 				state.order[index] = state.order[targetIndex];
 				state.order[targetIndex] = action.payload.id;
 
-				break;
+				return state;
 
 			case ActionType.DELETE_CELL:
 				delete state.data[action.payload];
 				state.order = state.order.filter(id => id !== action.payload);
 
-				break;
+				return state;
 
 			case ActionType.INSERT_CELL_BEFORE:
 				const cell: Cell = {
@@ -61,13 +61,17 @@ const reducer: Reducer<CellsState, Action> = produce(
 					state.order.splice(foundIndex, 0, cell.id);
 				}
 
-				break;
+				return state;
 
 			case ActionType.UPDATE_CELL:
 				const { id, content } = action.payload;
 
 				state.data[id].content = content;
-				break;
+
+				return state;
+
+			default:
+				return state;
 		}
 	}
 );
