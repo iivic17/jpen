@@ -7,13 +7,26 @@ const AddCell: React.FC<AddCellProps> = ({ nextCellId }) => {
 	const { insertCellBefore } = useActions();
 
 	return (
-		<div>
-			<button onClick={() => insertCellBefore(nextCellId, CellTypes.CODE)}>
-				Code
-			</button>
-			<button onClick={() => insertCellBefore(nextCellId, CellTypes.TEXT)}>
-				Text
-			</button>
+		<div className='add-cell'>
+			<div className='add-buttons'>
+				<button
+					className='button is-rounded is-primary is-small'
+					onClick={() => insertCellBefore(nextCellId, CellTypes.CODE)}>
+					<span className='icon is-small'>
+						<i className='fas fa-plus'> </i>
+					</span>
+					<span>Code</span>
+				</button>
+				<button
+					className='button is-rounded is-primary is-small'
+					onClick={() => insertCellBefore(nextCellId, CellTypes.TEXT)}>
+					<span className='icon is-small'>
+						<i className='fas fa-plus'> </i>
+					</span>
+					<span>Text</span>
+				</button>
+			</div>
+			<div className='divider' />
 		</div>
 	);
 };
