@@ -1,3 +1,3 @@
 export interface AddCellProps {
-	nextCellId: string;
+	nextCellId: string | null;
 }
