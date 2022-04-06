@@ -2,6 +2,7 @@ import { CellListItemProps } from './cell-list-item-props';
 import { CellTypes } from '../../state';
 import CodeCell from '../code-cell/code-cell';
 import TextEditor from '../text-editor/text-editor';
+import ActionBar from '../action-bar/action-bar';
 
 const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
 	let child: JSX.Element;
@@ -12,7 +13,12 @@ const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
 		child = <TextEditor cell={cell} />;
 	}
 
-	return <div>{child}</div>;
+	return (
+		<div>
+			<ActionBar id={cell.id} />
+			{child}
+		</div>
+	);
 };
 
 export default CellListItem;
