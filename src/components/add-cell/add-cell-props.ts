@@ -1,4 +1,4 @@
 export interface AddCellProps {
-	nextCellId: string | null;
+	previousCellId: string | null;
 	forceVisible?: boolean;
 }

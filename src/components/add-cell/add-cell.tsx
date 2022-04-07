@@ -3,15 +3,15 @@ import { useActions } from '../../hooks/use-actions';
 import { CellTypes } from '../../state';
 import './add-cell.css';
 
-const AddCell: React.FC<AddCellProps> = ({ nextCellId, forceVisible }) => {
-	const { insertCellBefore } = useActions();
+const AddCell: React.FC<AddCellProps> = ({ previousCellId, forceVisible }) => {
+	const { insertCellAfter } = useActions();
 
 	return (
 		<div className={`add-cell ${forceVisible && 'force-visible'}`}>
 			<div className='add-buttons'>
 				<button
 					className='button is-rounded is-primary is-small'
-					onClick={() => insertCellBefore(nextCellId, CellTypes.CODE)}>
+					onClick={() => insertCellAfter(previousCellId, CellTypes.CODE)}>
 					<span className='icon is-small'>
 						<i className='fas fa-plus'> </i>
 					</span>
@@ -19,7 +19,7 @@ const AddCell: React.FC<AddCellProps> = ({ nextCellId, forceVisible }) => {
 				</button>
 				<button
 					className='button is-rounded is-primary is-small'
-					onClick={() => insertCellBefore(nextCellId, CellTypes.TEXT)}>
+					onClick={() => insertCellAfter(previousCellId, CellTypes.TEXT)}>
 					<span className='icon is-small'>
 						<i className='fas fa-plus'> </i>
 					</span>
