@@ -6,10 +6,30 @@ import Resizable from '../resizable/resizable';
 import { useActions } from '../../hooks/use-actions';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
 import './code-cell.css';
+import { CellTypes } from '../../state';
 
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 	const { updateCell, createBundle } = useActions();
 	const bundle = useTypedSelector(state => state.bundles[cell.id]);
+	const cumulativeCode = useTypedSelector(state => {
+		const { data, order } = state.cells;
+
+		const orderedCells = order.map(id => data[id]);
+
+		const cumulativeCode = [];
+
+		for (let c of orderedCells) {
+			if (c.type === CellTypes.CODE) {
+				cumulativeCode.push(c.content);
+			}
+
+			if (c.id === cell.id) {
+				break;
+			}
+		}
+
+		return cumulativeCode;
+	});
 
 	useEffect(() => {
 		if (!bundle) {
