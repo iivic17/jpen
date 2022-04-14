@@ -18,6 +18,9 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
 		const cumulativeCode = [
 		`
+			import React from 'react';
+			import ReactDOM from 'react-dom';
+			
 			const show = (value) => {
 				const root = document.querySelector('#root');
 				let template;
