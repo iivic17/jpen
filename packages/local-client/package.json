@@ -1,6 +1,6 @@
 {
-	"name": "jpen",
-	"version": "0.1.0",
+	"name": "local-client",
+	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.1.1",
